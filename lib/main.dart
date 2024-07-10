@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'contact.dart';
+import 'addcontact.dart';
 
 void main() => runApp(const MyApp());
+
+//void addContact(){}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,6 +24,9 @@ class MyApp extends StatelessWidget {
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.blue, foregroundColor: Colors.white)),
       home: const ContactList(),
+      routes: {
+        "/addcontact": (context) => const AddContact(),
+      },
     );
   }
 }
@@ -59,7 +65,13 @@ class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('My Contacts')), body: _body());
+        appBar: AppBar(title: const Text('My Own Contacts App')),
+        body: _body(),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/addcontact");
+            },
+            child: Icon(Icons.contact_page)));
   }
 
   Widget _body() {
@@ -81,3 +93,47 @@ class _ContactListState extends State<ContactList> {
             }));
   }
 }
+
+/*
+FLUTTER DEV CODE
+https://pub.dev/packages/flutter_contacts
+
+// See installation notes below regarding AndroidManifest.xml and Info.plist
+import 'package:flutter_contacts/flutter_contacts.dart';
+
+// Request contact permission
+if (await FlutterContacts.requestPermission()) {
+  // Get all contacts (lightly fetched)
+  List<Contact> contacts = await FlutterContacts.getContacts();
+
+  // Get all contacts (fully fetched)
+  contacts = await FlutterContacts.getContacts(
+      withProperties: true, withPhoto: true);
+
+  // Get contact with specific ID (fully fetched)
+  Contact contact = await FlutterContacts.getContact(contacts.first.id);
+
+  // Insert new contact
+  final newContact = Contact()
+    ..name.first = 'John'
+    ..name.last = 'Smith'
+    ..phones = [Phone('555-123-4567')];
+  await newContact.insert();
+
+  // Update contact
+  contact.name.first = 'Bob';
+  await contact.update();
+
+  // Delete contact
+  await contact.delete();
+
+  // Open external contact app to view/edit/pick/insert contacts.
+  await FlutterContacts.openExternalView(contact.id);
+  await FlutterContacts.openExternalEdit(contact.id);
+  final contact = await FlutterContacts.openExternalPick();
+  final contact = await FlutterContacts.openExternalInsert();
+
+
+
+
+*/
