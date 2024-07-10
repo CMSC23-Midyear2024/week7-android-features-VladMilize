@@ -34,7 +34,7 @@ class ContactPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                contact.delete;
+                contact.delete();
                 Navigator.pop(context);
               },
               child: Text("Delete Contact"),
